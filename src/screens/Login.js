@@ -1,3 +1,4 @@
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,12 +8,13 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import {UserContext} from '../components/UserContext'; // adjust this path as needed
 
 const Login = ({navigation}) => {
   const [unitNumber, setUnitNumber] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const {users} = useContext(UserContext); // users fetched from context
 
   const validateInputs = () => {
     const phoneRegex = /^\d{10}$/;
@@ -41,10 +43,22 @@ const Login = ({navigation}) => {
 
   const handleLogin = () => {
     if (!validateInputs()) return;
-    console.log(
-      'Login Data:',
-      JSON.stringify({unitNumber, phoneNumber, password}, null, 2),
+
+    console.log('🔐 Available Users:', JSON.stringify(users, null, 2)); // 👈 Pretty-print user data
+
+    const matchedUser = users.find(
+      user =>
+        user.unitNumber?.toLowerCase() === unitNumber.toLowerCase() &&
+        String(user.phonenumber) === phoneNumber &&
+        user.password === password,
     );
+
+    if (matchedUser) {
+      Alert.alert('Login Success', `Welcome, ${matchedUser.name || 'User'}!`);
+      navigation.navigate('Bulletin', {user: matchedUser});
+    } else {
+      Alert.alert('Login Failed', 'Invalid credentials. Please try again.');
+    }
   };
 
   return (
@@ -84,7 +98,6 @@ const Login = ({navigation}) => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
-        {/* Bulletin Button - Now Visible */}
         <TouchableOpacity
           style={styles.bulletinButton}
           onPress={() => navigation.navigate('Bulletin')}>
@@ -112,7 +125,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 5,
     elevation: 5,
-    alignItems: 'center', // Centers content
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
@@ -149,7 +162,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 10,
     borderRadius: 8,
-    backgroundColor: '#FF6F61', // Eye-catching color
+    backgroundColor: '#FF6F61',
     width: '100%',
     alignItems: 'center',
   },

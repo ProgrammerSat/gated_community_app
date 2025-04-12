@@ -8,9 +8,12 @@ import {
 } from 'react-native';
 
 import {useWindowDimensions} from 'react-native';
+import {DrawerActions} from '@react-navigation/native';
 
-const Bulletin = ({navigation}) => {
+const Bulletin = ({navigation, props}) => {
   const [likedPosts, setLikedPosts] = React.useState({});
+
+  console.log(props);
 
   const handleLike = index => {
     setLikedPosts(prev => ({
@@ -51,7 +54,7 @@ const Bulletin = ({navigation}) => {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.menuButton}
-          onPress={() => navigation.openDrawer()}>
+          onPress={() => props.navigation.openDrawer()}>
           <Text style={styles.menuIcon}>☰</Text>
         </TouchableOpacity>
 
@@ -109,6 +112,13 @@ const Bulletin = ({navigation}) => {
           </View>
         </View>
       ))}
+      <TouchableOpacity
+        style={styles.subscriptionButton}
+        onPress={() => navigation.navigate('Subscription')}>
+        <Text style={styles.subscriptionButtonText}>
+          Go to Subscription Page
+        </Text>
+      </TouchableOpacity>
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>Pull down to refresh</Text>
@@ -245,6 +255,19 @@ const styles = StyleSheet.create({
   footerText: {
     color: '#8898AA',
     fontSize: 14,
+  },
+
+  subscriptionButton: {
+    backgroundColor: '#5E72E4',
+    padding: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  subscriptionButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

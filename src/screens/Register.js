@@ -18,7 +18,7 @@ const Register = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     let newErrors = {};
 
     // Validation patterns
@@ -38,6 +38,7 @@ const Register = ({navigation}) => {
       newErrors.phone = 'Please enter a valid 10-digit mobile number';
     }
 
+    //Unit number validation
     if (!unit.trim()) newErrors.unit = 'Unit is required';
 
     // Email validation

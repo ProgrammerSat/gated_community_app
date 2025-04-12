@@ -9,7 +9,7 @@ import Subscription from '../screens/Subscription';
 const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator initialRouteName="Bulletin" defaultStatus="open">
+    <Drawer.Navigator initialRouteName="Bulletin">
       <Drawer.Screen name="Bulletin" component={Bulletin} />
       <Drawer.Screen name="Subscription" component={Subscription} />
       <Drawer.Screen name="Donations" component={Donations} />
